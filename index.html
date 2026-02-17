@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVANG | Next-Gen Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#08080a] text-white selection:bg-cyan-500 overflow-x-hidden">
+
+    <div class="fixed inset-0 z-[-1] opacity-30">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-900/40 blur-[120px] rounded-full animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-900/40 blur-[120px] rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[30px] px-8 py-4 flex justify-between items-center shadow-2xl">
+        <div class="flex items-center gap-2">
+            <div class="w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_#22d3ee] animate-ping"></div>
+            <span class="text-xl font-bold tracking-tighter uppercase">Shivang<span class="text-cyan-400 font-light">OS</span></span>
+        </div>
+        <div class="relative group">
+            <input type="text" id="searchInput" placeholder="Search the future..." 
+                   class="bg-transparent border-none outline-none text-sm font-medium w-32 focus:w-64 transition-all duration-500 placeholder:text-white/30">
+            <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-cyan-400 group-focus-within:w-full transition-all"></div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-40 px-6 max-w-7xl mx-auto">
+        <div id="cat-nav" class="flex gap-4 overflow-x-auto no-scrollbar mb-16 py-4 justify-start md:justify-center"></div>
+
+        <div id="store-container" class="grid grid-cols-1 md:grid-cols-12 gap-6"></div>
+    </main>
+
+    <div id="cart-hub" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+        <button onclick="toggleCart()" class="bg-white text-black px-8 py-4 rounded-full font-bold flex items-center gap-4 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 active:scale-95 transition-all">
+            <span id="cart-count">0</span> ITEMS <span class="text-gray-400">|</span> <span class="text-cyan-600">₹<span id="cart-total">0</span></span>
+            <i class="fa-solid fa-arrow-right-long ml-2"></i>
+        </button>
+    </div>
+
+    <div id="mini-cart" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl translate-y-full transition-transform duration-700 flex flex-col">
+        <div class="p-10 flex justify-between items-end border-b border-white/5">
+            <h2 class="text-6xl font-bold tracking-tighter italic">BASKET<span class="text-cyan-500">.</span></h2>
+            <button onclick="toggleCart()" class="text-4xl hover:rotate-90 transition-all duration-500"><i class="fa-solid fa-plus rotate-45"></i></button>
+        </div>
+        <div id="mini-cart-items" class="flex-1 overflow-y-auto p-10 grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        <div class="p-10 border-t border-white/5 bg-white/5">
+            <button onclick="checkout()" class="w-full bg-cyan-500 text-black py-8 rounded-[40px] text-2xl font-black italic uppercase hover:bg-white transition-all">
+                Send Order to Command Center (WhatsApp)
+            </button>
+        </div>
+    </div>
+
+    <script src="inventory.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
