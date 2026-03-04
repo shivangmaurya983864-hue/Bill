@@ -188,31 +188,35 @@
         .btn-print { background: var(--royal-gold); color: #fff; box-shadow: 0 8px 15px rgba(184,134,11,0.3); }
         .btn:hover { transform: translateY(-3px); }
 
+        .del-btn-cell { text-align: center; }
         .del-btn { color: #ff4d4d; border: none; background: none; font-size: 1.5rem; cursor: pointer; }
 
+        /* --- PRINT SETTINGS --- */
         @media print {
+            .btn-group, .btn-add, .del-btn-cell { display: none !important; }
+            
+            body { background: white; padding: 0; }
+            .invoice-card { box-shadow: none; border: none; width: 100%; max-width: 100%; border-radius: 0; }
 
-    select {
-        appearance: none;
-        -webkit-appearance: none;
-        border: none !important;
-        background: none !important;
-        padding: 0 !important;
-        width: auto !important;
-        min-width: 60px;
-        font-weight: 600;
-    }
+            /* भाव (Rate) वाले कॉलम को पूरी तरह गायब करने के लिए */
+            .rate-col { display: none !important; }
+            
+            /* सामान के नाम को थोड़ा और बड़ा करने के लिए ताकि बैलेंस बना रहे */
+            th:first-child, td:first-child { width: 55% !important; }
 
-    input {
-        border: none !important;
-        background: none !important;
-    }
+            select {
+                appearance: none;
+                -webkit-appearance: none;
+                border: none !important;
+                background: none !important;
+                padding: 0 !important;
+            }
 
-    th, td {
-        white-space: nowrap;
-    }
-
-}
+            input {
+                border: none !important;
+                background: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -252,14 +256,14 @@
                     <th width="40%">सामान का नाम</th>
                     <th width="15%">मात्रा</th>
                     <th width="15%">यूनिट</th>
-                    <th width="15%">भाव (₹)</th>
+                    <th width="15%" class="rate-col">भाव (₹)</th> 
                     <th width="15%" style="text-align:right">कुल</th>
-                    <th width="5%"></th>
+                    <th width="5%" class="del-btn-cell"></th>
                 </tr>
             </thead>
             <tbody id="billBody"></tbody>
         </table>
-        <button class="btn btn-add" style="margin-top: 20px" onclick="addRow()">+ नया सामान जोड़ें</button>
+        <button class="btn btn-add" style="margin-top: 20px" onclick="addRow()">+ नया सामान जोड़ें</button>
     </div>
 
     <div class="footer-grid">
@@ -284,7 +288,6 @@
 </div>
 
 <script>
-    // Set current date in Hindi
     document.getElementById("billDate").value = new Date().toLocaleDateString('hi-IN', {
         day: '2-digit', month: 'long', year: 'numeric'
     });
@@ -304,9 +307,9 @@
                     <option value="pkt">पैकेट</option>
                 </select>
             </td>
-            <td><input type="number" placeholder="0.00" oninput="calculate()"></td>
+            <td class="rate-col"><input type="number" placeholder="0.00" oninput="calculate()"></td>
             <td class="row-total">0.00</td>
-            <td style="text-align:center"><button class="del-btn" onclick="this.parentElement.parentElement.remove(); calculate()">×</button></td>
+            <td class="del-btn-cell"><button class="del-btn" onclick="this.parentElement.parentElement.remove(); calculate()">×</button></td>
         `;
         calculate();
     }
@@ -318,11 +321,12 @@
         rows.forEach(row => {
             const qty = parseFloat(row.cells[1].querySelector('input').value) || 0;
             const unit = row.cells[2].querySelector('select').value;
-            const rate = parseFloat(row.cells[3].querySelector('input').value) || 0;
+            const rateInput = row.cells[3].querySelector('input');
+            const rate = parseFloat(rateInput.value) || 0;
             
             let total = 0;
             if (unit === 'gm') {
-                total = (qty / 1000) * rate; // ग्राम को किलो के भाव से कैलकुलेट करें
+                total = (qty / 1000) * rate;
             } else {
                 total = qty * rate;
             }
@@ -336,7 +340,6 @@
         document.getElementById("itemCount").innerText = rows.length;
     }
 
-    // Default 3 empty rows
     for(let i=0; i<3; i++) addRow();
 </script>
 
